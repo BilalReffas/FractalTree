@@ -3,6 +3,10 @@
 import PlaygroundSupport
 import UIKit
 
+extension FloatingPoint {
+    var degreesToRadians: Self { return self * .pi / 180 }
+}
+
 class FractalTree: UIView {
 
     private let path = UIBezierPath()
@@ -14,7 +18,7 @@ class FractalTree: UIView {
         shapeLayer.strokeColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1).cgColor
         shapeLayer.lineWidth = 4
         shapeLayer.path = path.cgPath
-        self.layer.addSublayer(shapeLayer)
+        layer.addSublayer(shapeLayer)
         return shapeLayer
     }()
     
@@ -45,8 +49,8 @@ class FractalTree: UIView {
         if depth == 0 { return }
 
         // Calculate Coordinates
-        let x2 = x + cos(startAngle * CGFloat.pi / 180) * branchLength
-        let y2 = y + sin(startAngle * CGFloat.pi / 180) * branchLength
+        let x2 = x + cos(startAngle.degreesToRadians) * branchLength
+        let y2 = y + sin(startAngle.degreesToRadians) * branchLength
 
         // Draw the calculcatet lines
         path.move(to: CGPoint(x: x, y: y))
@@ -59,6 +63,6 @@ class FractalTree: UIView {
 }
 
 let frame = CGRect(x: 0, y: 0, width: 500, height: 500)
-let fractal = FractalTree(frame: frame, depth: 8, x: frame.width / 2, y: frame.height, startAngle: -90, modificationAngle: 35, branchLength: 50)
+let fractal = FractalTree(frame: frame, depth: 5, x: frame.width / 2, y: frame.height, startAngle: -90, modificationAngle: 35, branchLength: 50)
 
 PlaygroundPage.current.liveView = fractal
